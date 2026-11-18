@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>만리장성 단체 주문서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F4F5F1;--surface:#FFFFFF;--sunk:#ECEEE8;--ink:#1E2721;--muted:#66706A;--line:#DFE3DA;
+  --accent:#44713A;--accent-ink:#FFFFFF;--accent-soft:#E3EDDD;--yolk:#F1C232;--yolk-ink:#3A2E00;
+  --warn:#B8432F;--warn-soft:#F7E3DE;--ok:#2F7A4E;
+  --display:"Gowun Dodum","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  color-scheme:dark;--bg:#131713;--surface:#1C211C;--sunk:#252B25;--ink:#E8ECE6;--muted:#9AA39B;--line:#303830;
+  --accent:#8CBF76;--accent-ink:#10200B;--accent-soft:#26331F;--yolk:#E6BC36;--yolk-ink:#2A2100;
+  --warn:#EC8A76;--warn-soft:#3A2220;--ok:#7BC99A}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+button{font:inherit;color:inherit;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-block:14px 8px;flex-wrap:wrap}
+h1{font:400 24px/1.2 var(--display);margin:0;letter-spacing:-.01em}
+.live{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block}
+.live.on i{background:var(--ok)}
+.live.bad i{background:var(--warn)}
+.tabs{display:flex;gap:4px;padding-bottom:10px}
+.tabs button{flex:1;border:0;background:transparent;padding:9px 6px;border-radius:10px;font-weight:700;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tabs small{font-weight:500;opacity:.8;margin-left:4px;font-variant-numeric:tabular-nums}
+h2{font:400 19px/1.3 var(--display);margin:0}
+.sec{display:grid;gap:12px;padding-block:20px 4px}
+.hint{color:var(--muted);font-size:13px;margin:0}
+.banner{background:var(--warn-soft);color:var(--warn);padding:10px 12px;border-radius:10px;font-size:13px;margin-top:14px}
+.banner.info{background:var(--accent-soft);color:var(--ink)}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px}
+.name{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 6px;font-weight:500;font-size:14px;display:flex;justify-content:center;align-items:center;gap:4px;min-width:0}
+.name span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.name.done::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+.name[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.name[aria-pressed="true"].done::after{background:var(--accent-ink)}
+.mine{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px}
+.mine .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.mine b{font-variant-numeric:tabular-nums}
+.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.cats a{flex:none;text-decoration:none;color:var(--ink);background:var(--sunk);padding:6px 12px;border-radius:99px;font-size:13px;font-weight:500}
+.cat{scroll-margin-top:130px}
+.cat h3{font:400 17px/1.3 var(--display);margin:22px 0 2px;display:flex;gap:8px;align-items:baseline}
+.cat h3 small{font:500 12px var(--body);color:var(--muted)}
+.item{display:grid;grid-template-columns:1fr 112px;gap:14px;padding-block:14px;border-bottom:1px solid var(--line);align-items:center}
+.item:last-child{border-bottom:0}
+.item .txt{display:grid;gap:3px;align-content:start;min-width:0}
+.tag{justify-self:start;font-size:11px;font-weight:700;color:var(--yolk-ink);background:var(--yolk);border-radius:6px;padding:0 6px;line-height:18px}
+.item .n{font-weight:700;font-size:16px;line-height:1.35}
+.item .d{color:var(--muted);font-size:13px;line-height:1.5}
+.item .p{font-weight:700;font-variant-numeric:tabular-nums}
+.item.sel{background:linear-gradient(90deg,transparent,var(--accent-soft));}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--sunk);border-radius:99px;padding:2px}
+.step button{width:34px;height:34px;border:0;border-radius:50%;background:transparent;font-size:18px;line-height:1;font-weight:700}
+.step button.plus{background:var(--accent);color:var(--accent-ink)}
+.step span{font-weight:700;font-variant-numeric:tabular-nums}
+.add{border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:99px;height:38px;font-weight:700;font-size:14px;width:100%}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:728px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:40px}
+.bar .who{font-size:14px;color:var(--muted)}
+.bar .sum{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.danger{background:var(--warn);border-color:var(--warn);color:#fff}
+.btn.ghost-danger{color:var(--warn);border-color:var(--warn)}
+.btn.sm{padding:5px 10px;font-size:12px;border-radius:8px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.stat .k small{font-size:11px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat .k{font-size:12px;color:var(--muted)}
+.stat .v{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:420px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
+th{font-size:12px;color:var(--muted);font-weight:500;background:var(--sunk)}
+td.r,th.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700;border-bottom:0}
+td .sub{color:var(--muted);font-size:12px}
+tr.paid td{color:var(--muted)}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{font-size:13px;padding:3px 10px;border-radius:99px;background:var(--warn-soft);color:var(--warn);font-weight:500}
+.pay{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.pay[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.confirm{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.confirm span{font-size:13px;color:var(--warn);font-weight:700}
+.field{display:grid;gap:6px}
+.field label{font-weight:700;font-size:14px}
+.field input,.field textarea{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:9px 12px;font:inherit;font-size:14px}
+.field textarea{line-height:1.6;resize:vertical}
+.empty{text-align:center;padding:48px 16px;color:var(--muted)}
+.empty strong{display:block;color:var(--ink);font:400 19px/1.4 var(--display);margin-bottom:6px}
+.item.multi{grid-template-columns:1fr}
+.sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.size{display:grid;gap:6px;background:var(--sunk);border-radius:12px;padding:8px}
+.size .sl{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-size:13px}
+.size .sl b{font-size:14px}
+.size .sl span{font-weight:700;font-variant-numeric:tabular-nums}
+.size .step{background:var(--surface)}
+.size .add{height:34px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:99px;font-size:13px;z-index:30;max-width:calc(100% - 32px)}
+@media (max-width:420px){.item{grid-template-columns:1fr 100px}.stat .v{font-size:15px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="head"><h1 id="ttl">단체 주문서</h1><div class="live" id="live"><i></i><span>연결 중…</span></div></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-o" aria-selected="true" onclick="setTab('o')">주문하기</button>
+    <button role="tab" id="tab-r" aria-selected="false" onclick="setTab('r')">수합<small id="cntR"></small></button>
+  </div>
+</div></header>
+<main class="wrap" id="app"></main>
+<div class="bar" id="bar" hidden><div class="in" id="barIn"></div></div>
+<div id="toast" hidden></div>
+
+<script>
+/* ===================================================================
+   ▼▼▼ 여기만 고치면 돼요 ▼▼▼
+   - 메뉴: 한 줄에 하나. "메뉴명 가격"
+   - "# 카테고리" 줄 아래 메뉴는 그 카테고리로 묶여요.
+   - 이름 뒤에 (소)(중)(대)를 붙이면 카드 하나로 묶여요.
+   =================================================================== */
+const TITLE = "만리장성";
+const NAMES = ["엄성화","김주영","모현일","박경석","최태훈","이선건","이선주","김은비","김길문","이단비","송시열"];
+const MENU_TEXT = `
+# 면류
+짜장 8000
+간짜장 9000
+짬뽕 9000
+효성짬뽕 10000
+우동 10000
+울면 10000
+삼선간짜장 12000
+삼선짬뽕 13000
+삼선우동 13000
+굴짬뽕 13000
+사천짜장 13000
+쟁반짜장(2인) 24000
+쟁반짬뽕(2인) 27000
+# 밥류
+볶음밥 9000
+잡채밥 10000
+짜장밥 10000
+짬뽕밥 10000
+오징어덮밥 10000
+제육덮밥 10000
+효성짬뽕밥 11000
+마파밥 12000
+삼선볶음밥 13000
+새우볶음밥 13000
+삼선짬뽕밥 13000
+고추잡채밥 13000
+송이밥 13000
+유산슬밥 13000
+잡탕밥 15000
+# 요리류
+탕수육(소) 18000
+탕수육(중) 25000
+탕수육(대) 30000
+사천탕수육(소) 25000
+사천탕수육(중) 30000
+사천탕수육(대) 35000
+깐풍기(소) 35000
+깐풍기(중) 40000
+깐풍기(대) 45000
+깐쇼새우(소) 35000
+깐쇼새우(중) 40000
+깐쇼새우(대) 45000
+양장피(소) 35000
+양장피(중) 40000
+양장피(대) 45000
+팔보채(소) 35000
+팔보채(중) 40000
+팔보채(대) 45000
+고추잡채(소) 35000
+고추잡채(중) 40000
+고추잡채(대) 45000
+`;
+
+/* Firebase 콘솔 → 프로젝트 설정 → 내 앱(웹)에서 복사한 값을 붙여 넣으세요 */
+const firebaseConfig = {
+  apiKey: "AIzaSyD7-9QhGBTim51OhY5W1gpfIdimAXvTxU4",
+  authDomain: "project-1040972736803408944.firebaseapp.com",
+  databaseURL: "https://project-1040972736803408944-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "project-1040972736803408944",
+  storageBucket: "project-1040972736803408944.firebasestorage.app",
+  messagingSenderId: "364981019120",
+  appId: "1:364981019120:web:162192390d526712813d35"
+};
+/* ▲▲▲ 여기까지 ▲▲▲ */
+
+/* ---------- 메뉴 읽기 ---------- */
+function hash(s){let h=5381;for(const ch of String(s))h=((h<<5)+h+ch.codePointAt(0))>>>0;return h.toString(36)}
+const MENU=(()=>{const out=[],seen=new Set();let cat="메뉴";
+  for(const raw of MENU_TEXT.split(/\r?\n/)){const line=raw.trim();if(!line)continue;
+    const h=line.match(/^#+\s*(.+)$/);if(h){cat=h[1].trim();continue}
+    const m=line.match(/^(.*?)[\s.·…:-]*([\d,]{3,})\s*원?$/);if(!m||!m[1])continue;
+    const n=m[1].trim(),id="m"+hash(n.replace(/\s+/g,""));if(seen.has(id))continue;seen.add(id);
+    out.push({id,c:cat,n,p:+m[2].replace(/,/g,"")});}
+  return out})();
+const BY=Object.fromEntries(MENU.map(m=>[m.id,m]));
+const CATS=[...new Set(MENU.map(m=>m.c))];
+
+/* ---------- 상태 ---------- */
+let ORD={};               // name -> items
+let status="loading",me=null,tab="o",confirmKey=null,fb=null;
+let isAdmin=location.hash==="#admin";
+const FB_SET=!firebaseConfig.apiKey.startsWith("여기에")&&String(firebaseConfig.databaseURL).startsWith("https");
+
+const $=id=>document.getElementById(id);
+const won=n=>Number(n||0).toLocaleString("ko-KR")+"원";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const keyOf=name=>"n"+hash(name);
+function toast(m){const t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
+function clean(it){const o={};for(const[k,q]of Object.entries(it||{}))if(BY[k]&&q>0)o[k]=Math.min(99,Math.floor(q));return o}
+const items=n=>clean(ORD[n]);
+const cnt=n=>Object.values(items(n)).reduce((a,b)=>a+b,0);
+const list=n=>Object.entries(items(n)).map(([k,q])=>BY[k].n+(q>1?" ×"+q:"")).join(", ");
+
+/* ---------- 저장 ---------- */
+function save(n){
+  if(!fb){toast("공유 저장에 연결되지 않아 저장하지 못했어요");return}
+  const it=items(n);
+  fb.set(fb.ref(fb.db,"orders/"+keyOf(n)),Object.keys(it).length?{name:n,items:it,at:Date.now()}:null)
+    .catch(()=>toast("저장하지 못했어요. 잠시 뒤 다시 눌러주세요"));
+}
+
+/* ---------- 동작 ---------- */
+function setTab(t){tab=t;confirmKey=null;render();window.scrollTo(0,0)}
+function pick(i){me=NAMES[i];confirmKey=null;try{localStorage.setItem("go-me",me)}catch(e){}render()}
+function chg(id,d){
+  if(me===null){toast("먼저 위에서 이름을 골라주세요");document.querySelector(".names")?.scrollIntoView({behavior:"smooth",block:"center"});return}
+  const it={...items(me)},q=Math.max(0,(it[id]||0)+d);
+  if(q)it[id]=q;else delete it[id];
+  ORD[me]=it;confirmKey=null;render();save(me);
+}
+function askCancel(k){confirmKey=k;render()}
+function doCancel(i){const n=NAMES[i];ORD[n]={};confirmKey=null;render();save(n);
+  toast(n===me&&tab==="o"?"주문을 비웠어요. 메뉴를 다시 골라주세요":n+"님 주문을 취소했어요")}
+function resetAll(){
+  if(!fb)return;confirmKey=null;
+  fb.set(fb.ref(fb.db,"orders"),null).then(()=>toast("주문을 모두 비웠어요"),()=>toast("비우지 못했어요"));
+}
+function copy(text,msg){
+  const done=()=>toast(msg);
+  const fallback=()=>{const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+    let ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();ok?done():showText(text)};
+  try{navigator.clipboard.writeText(text).then(done,fallback)}catch(e){fallback()}
+}
+function showText(text){const b=$("manual");if(!b)return;b.hidden=false;const t=$("manualTxt");t.value=text;t.focus();t.select();toast("복사가 막혀 있어요. 아래 글을 직접 복사해 주세요")}
+function menuTotals(){
+  return MENU.map(m=>{let q=0;const w=[];NAMES.forEach(n=>{const c=items(n)[m.id];if(c){q+=c;w.push(n+(c>1?"×"+c:""))}});return{m,q,w}}).filter(r=>r.q);
+}
+function copyOrder(){
+  const rows=menuTotals();if(!rows.length){toast("아직 주문이 없어요");return}
+  const tq=rows.reduce((a,r)=>a+r.q,0),tp=rows.reduce((a,r)=>a+r.q*r.m.p,0);
+  copy(`[${TITLE} 주문]\n`+rows.map(r=>`${r.m.n} ${r.q}개`).join("\n")+`\n\n총 ${tq}개`+(isAdmin?` · ${won(tp)}`:""),"가게 주문용 목록을 복사했어요");
+}
+
+/* ---------- 그리기 ---------- */
+function banner(){
+  if(!FB_SET)return '<div class="banner">아직 Firebase 설정이 없어서 주문이 저장되지 않아요. index.html 안의 firebaseConfig를 채워주세요.</div>';
+  if(status==="off")return '<div class="banner">공유 저장에 연결하지 못했어요. 인터넷 연결이나 Firebase 규칙을 확인해 주세요.</div>';
+  if(status==="slow")return '<div class="banner">주문 목록을 아직 불러오지 못했어요. 인터넷 연결을 확인해 주세요.</div>';
+  return "";
+}
+function renderBar(){
+  const bar=$("bar"),inn=$("barIn");
+  if(tab!=="o"){bar.hidden=true;return}
+  bar.hidden=false;
+  if(me===null){inn.innerHTML='<span class="who">이름을 먼저 골라주세요</span>';return}
+  const c=cnt(me),i=NAMES.indexOf(me);
+  if(confirmKey==="me"){
+    inn.innerHTML=`<div class="confirm"><span>${esc(me)}님 주문 ${c}개를 모두 비울까요?</span></div><div class="actions"><button class="btn" onclick="askCancel(null)">그대로 두기</button><button class="btn danger" onclick="doCancel(${i})">비우기</button></div>`;return;
+  }
+  inn.innerHTML=`<div><div class="who">${esc(me)}님 · ${c}개</div></div>`+
+    (c?`<button class="btn ghost-danger" onclick="askCancel('me')">↺ 비우고 다시 고르기</button>`:'<span class="who">메뉴의 담기를 눌러주세요</span>');
+}
+function renderOrder(){
+  let h=banner();
+  h+='<section class="sec"><h2>누구세요?</h2><div class="names">'+
+    NAMES.map((n,i)=>`<button class="name ${cnt(n)?"done":""}" aria-pressed="${me===n}" onclick="pick(${i})"><span>${esc(n)}</span></button>`).join("")+
+    '</div><p class="hint">초록 점은 주문을 마친 사람이에요. 담는 즉시 모두에게 공유되고, 내 이름은 이 기기에 기억돼요.</p></section>';
+  if(me!==null){
+    const c=cnt(me);
+    h+=`<div class="mine"><div class="row"><strong>${esc(me)}님의 주문</strong><b>${c?c+"개":"아직 없음"}</b></div>`+
+      (c?`<div class="hint">${esc(list(me))}</div>`:'<div class="hint">아래에서 먹고 싶은 메뉴를 담아주세요.</div>')+'</div>';
+  }
+  if(CATS.length>1)h+='<section class="sec"><div class="cats">'+CATS.map((c,i)=>`<a href="#c${i}" onclick="event.preventDefault();document.getElementById('c${i}').scrollIntoView({behavior:'smooth'})">${esc(c)}</a>`).join("")+'</div></section>';
+  const ctlOf=(m,label)=>{
+    const q=me===null?0:(items(me)[m.id]||0);
+    return q?`<div class="step"><button aria-label="${esc(m.n)} 하나 빼기" onclick="chg('${m.id}',-1)">−</button><span>${q}</span><button class="plus" aria-label="${esc(m.n)} 하나 더" onclick="chg('${m.id}',1)">+</button></div>`
+            :`<button class="add" onclick="chg('${m.id}',1)">${label||"담기"}</button>`;
+  };
+  CATS.forEach((c,ci)=>{
+    const groups=[],gi={};
+    for(const m of MENU.filter(m=>m.c===c)){
+      const v=m.n.match(/^(.*?)\s*\((소|중|대|특대|S|M|L)\)$/);
+      const base=v?v[1]:m.n;
+      if(v&&gi[base]!==undefined){groups[gi[base]].vs.push({m,l:v[2]});continue}
+      if(v)gi[base]=groups.length;
+      groups.push(v?{base,vs:[{m,l:v[2]}]}:{base,one:m});
+    }
+    h+=`<section class="cat" id="c${ci}"><h3>${esc(c)}<small>${groups.length}가지</small></h3>`+groups.map(g=>{
+      if(g.one){const m=g.one,q=me===null?0:(items(me)[m.id]||0);
+        return `<div class="item ${q?"sel":""}"><div class="txt"><div class="n">${esc(m.n)}</div>${isAdmin?`<div class="d">${won(m.p)}</div>`:""}</div><div>${ctlOf(m)}</div></div>`;}
+      const any=me!==null&&g.vs.some(x=>items(me)[x.m.id]);
+      return `<div class="item multi ${any?"sel":""}"><div class="txt"><div class="n">${esc(g.base)}</div></div>`+
+        `<div class="sizes">${g.vs.map(x=>`<div class="size"><div class="sl"><b>${esc(x.l)}</b>${isAdmin?`<span>${won(x.m.p)}</span>`:""}</div>${ctlOf(x.m,"담기")}</div>`).join("")}</div></div>`;
+    }).join("")+'</section>';
+  });
+  return h;
+}
+function renderResult(){
+  const rows=menuTotals(),tq=rows.reduce((a,r)=>a+r.q,0),tp=rows.reduce((a,r)=>a+r.q*r.m.p,0);
+  const done=NAMES.filter(n=>cnt(n)).length,miss=NAMES.filter(n=>!cnt(n));
+  let h=banner()+'<section class="sec"><div class="stats">'+
+    `<div class="stat"><div class="k">주문한 사람</div><div class="v">${done} / ${NAMES.length}명</div></div>`+
+    `<div class="stat"><div class="k">총 수량</div><div class="v">${tq}개</div></div>`+
+    (isAdmin?`<div class="stat"><div class="k">총 금액</div><div class="v">${won(tp)}</div></div>`:"")+'</div>';
+  h+=miss.length?`<div class="chiprow"><span class="hint">아직 안 고른 사람</span>${miss.map(n=>`<span class="pill">${esc(n)}</span>`).join("")}</div>`:'<p class="hint">모두 주문을 마쳤어요.</p>';
+  h+='</section><section class="sec"><h2>가게에 주문할 목록</h2>'+
+    `<div class="tw"><table><thead><tr><th>메뉴</th><th class="r">수량</th>${isAdmin?'<th class="r">금액</th>':""}<th>주문한 사람</th></tr></thead><tbody>`+
+    (rows.map(r=>`<tr><td>${esc(r.m.n)}${isAdmin?`<div class="sub">${won(r.m.p)}</div>`:""}</td><td class="r">${r.q}</td>${isAdmin?`<td class="r">${won(r.q*r.m.p)}</td>`:""}<td>${esc(r.w.join(", "))}</td></tr>`).join("")||`<tr><td colspan="${isAdmin?4:3}" class="hint">아직 주문이 없어요</td></tr>`)+
+    `</tbody><tfoot><tr><td>합계</td><td class="r">${tq}</td>${isAdmin?`<td class="r">${won(tp)}</td>`:""}<td></td></tr></tfoot></table></div>`+
+    '<div class="actions"><button class="btn pri" onclick="copyOrder()">주문 목록 복사</button></div></section>';
+  h+='<section class="sec"><h2>사람별 주문</h2><div class="tw"><table><thead><tr><th>이름</th><th>주문 내역</th><th class="r"></th></tr></thead><tbody>'+
+    NAMES.map((n,i)=>{
+      if(!cnt(n))return `<tr><td>${esc(n)}</td><td><span class="pill">미주문</span></td><td></td></tr>`;
+      const ck="p"+i;
+      const act=confirmKey===ck
+        ?`<div class="confirm" style="justify-content:flex-end"><button class="btn sm" onclick="askCancel(null)">아니요</button><button class="btn sm danger" onclick="doCancel(${i})">취소</button></div>`
+        :`<button class="btn sm ghost-danger" onclick="askCancel('${ck}')">주문 취소</button>`;
+      return `<tr><td>${esc(n)}</td><td>${esc(list(n))}</td><td class="r">${act}</td></tr>`;
+    }).join("")+'</tbody></table></div></section>';
+  if(isAdmin){
+    h+='<section class="sec"><h2>관리</h2><p class="hint">이 부분은 주소 끝에 #admin을 붙여 연 사람에게만 보여요. 회식이 끝나면 다음 주문을 위해 비워주세요.</p>'+
+      (confirmKey==="all"
+        ?'<div class="confirm"><span>모든 주문을 비울까요? 되돌릴 수 없어요.</span><button class="btn sm" onclick="askCancel(null)">아니요</button><button class="btn sm danger" onclick="resetAll()">모두 비우기</button></div>'
+        :`<div class="actions"><button class="btn ghost-danger" onclick="askCancel('all')" ${done?"":"disabled"}>주문 모두 비우기</button></div>`)+'</section>';
+  }
+  h+='<div id="manual" class="mine" hidden><strong>복사할 글</strong><textarea id="manualTxt" rows="6" readonly style="width:100%;font:inherit;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)"></textarea></div>';
+  return h;
+}
+function render(){
+  for(const t of["o","r"])$("tab-"+t).setAttribute("aria-selected",tab===t);
+  const d=NAMES.filter(n=>cnt(n)).length;$("cntR").textContent=d?d+"/"+NAMES.length:"";
+  $("ttl").textContent=TITLE+(isAdmin?" · 관리자":"");document.title=TITLE+" 단체 주문서";
+  const lv=$("live");lv.className="live"+(status==="on"?" on":status==="loading"?"":" bad");
+  lv.lastElementChild.textContent=status==="on"?"실시간 공유 중":!FB_SET?"Firebase 설정 필요":status==="slow"?"응답 없음":status==="off"?"연결 안 됨":"연결 중…";
+  $("app").innerHTML=tab==="o"?renderOrder():renderResult();
+  renderBar();
+}
+window.addEventListener("hashchange",()=>{const a=location.hash==="#admin";if(a!==isAdmin){isAdmin=a;render()}});
+
+/* ---------- 연결 ---------- */
+try{const m=localStorage.getItem("go-me");if(m&&NAMES.includes(m))me=m}catch(e){}
+if(!FB_SET)status="off";
+render();
+if(FB_SET)(async()=>{
+  const timer=setTimeout(()=>{if(status==="loading"){status="slow";render()}},10000);
+  try{
+    const {initializeApp}=await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js");
+    const {getDatabase,ref,onValue,set}=await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js");
+    const db=getDatabase(initializeApp(firebaseConfig));
+    fb={db,ref,set};
+    onValue(ref(db,"orders"),snap=>{
+      clearTimeout(timer);status="on";
+      const v=snap.val()||{},by={};
+      for(const d of Object.values(v))if(d&&typeof d.name==="string"&&NAMES.includes(d.name))by[d.name]=clean(d.items);
+      ORD=by;render();
+    },err=>{clearTimeout(timer);status="off";render();toast("주문을 불러오지 못했어요. Firebase 규칙을 확인해 주세요");console.error(err)});
+  }catch(e){clearTimeout(timer);status="off";render();console.error(e)}
+})();
+</script>
+</body>
+</html>
